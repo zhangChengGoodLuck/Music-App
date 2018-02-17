@@ -5,8 +5,8 @@
      </slot>
    </div>
    <div class="dots">
-     <span v-for = '(item,index) in dots' :key = 'item' class = 'dot' :class = '{active:
-       currentPageIndex === index}'></span>
+     <span v-for = '(item,index) in dots' :key = 'item' class = 'dot'
+       :class = '{active:currentPageIndex === index}'></span>
    </div>
     </div>
 </template>
@@ -52,6 +52,9 @@ export default {
       this._setSliderWidth(true)
       this.slider.refresh()
     })
+  },
+  destroyed () {
+    clearTimeout(this.timer)
   },
   methods: {
     _setSliderWidth (isResize) {
