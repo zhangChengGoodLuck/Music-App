@@ -1,7 +1,8 @@
 <template lang="html">
     <div class= 'recommend'>
-      <div class="recommend-content" >
-        <div class="slider-wrapper" v-if='recommends.length'>
+      <scroll ref = 'scroll' class="recommend-content" :data = 'discList'>
+        <div>
+        <div class="slider-wrapper"  v-if='recommends.length'>
           <slider>
             <div v-for = 'item in recommends' :key = 'item.linkUrl'>
                 <a :href='item.linkUrl'>
@@ -12,8 +13,23 @@
         </div>
         <div class="recommend-list">
           <h1 class = "list-title">热门歌单推荐</h1>
+          <ul>
+            <li v-for = 'item in discList' class = 'item' :key = 'item.dissid'>
+              <div class="icon">
+                <img width = '60' height ='60' v-lazy="item.imgurl">
+              </div>
+              <div class="text">
+                <h2 v-html = 'item.creator.name' class = "name"></h2>
+                <p v-html = 'item.dissname' class = 'desc'></p>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
+      <div class="loading-container" v-show = '!discList.length'>
+        <loading></loading>
+      </div>
+      </scroll>
     </div>
 </template>
 
@@ -21,6 +37,8 @@
 import {getRecommend, getDiscList} from 'api/recommend'
 import {ERR_OK} from 'api/config'
 import Slider from 'base/slider/slider'
+import Scroll from 'base/scroll/scroll'
+import Loading from 'base/loading/loading'
 
 export default {
   data () {
@@ -45,14 +63,21 @@ export default {
     _getDiscList () {
       getDiscList().then((res) => {
         if (res.code === ERR_OK) {
-          console.log(res.data.list)
           this.discList = res.data.list
         }
       })
+    },
+    loadImage () {
+      if (!this.checkLoaded) {
+        this.$refs.scroll.refresh()
+        this.checkLoaded = true
+      }
     }
   },
   components: {
-    Slider
+    Slider,
+    Scroll,
+    Loading
   }
 }
 </script>
@@ -105,5 +130,4 @@ export default {
         width: 100%
         top: 50%
         transform: translateY(-50%)
-
 </style>

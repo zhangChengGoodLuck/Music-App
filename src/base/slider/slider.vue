@@ -91,7 +91,6 @@ export default {
         if (this.loop) {
           pageIndex -= 1
         }
-        console.log('当前位置是:' + this.currentPageIndex)
         this.currentPageIndex = pageIndex
 
         if (this.autoPlay) {

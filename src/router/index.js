@@ -18,15 +18,15 @@ export default new Router({
       component: Recommend
     },
     {
-      path: 'rank',
+      path: '/rank',
       component: Rank
     },
     {
-      path: 'singer',
+      path: '/singer',
       component: Singer
     },
     {
-      path: 'search',
+      path: '/search',
       component: Search
     }
   ]
